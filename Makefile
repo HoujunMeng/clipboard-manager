@@ -8,6 +8,7 @@
 #   make run      — 构建并运行
 
 APP_NAME       := ClipboardManager
+DISPLAY_NAME   := 历史粘贴板
 BUNDLE_ID      := com.clipboardmanager.app
 BUILD_DIR      := .build
 RELEASE_DIR    := $(BUILD_DIR)/release
@@ -19,7 +20,7 @@ SWIFT_FLAGS    := -c release
 ICONSET_DIR    := $(BUILD_DIR)/AppIcon.iconset
 VERSION        := 1.0.0
 BUILD          := 1
-DMG_NAME       := $(APP_NAME)-$(VERSION).dmg
+DMG_NAME       := $(DISPLAY_NAME)-$(VERSION).dmg
 
 .PHONY: all build release app clean run xcode dmg icns install
 
@@ -101,13 +102,13 @@ dmg: app
 	# 创建临时目录
 	@mkdir -p "$(BUILD_DIR)/dmg"
 	@rm -rf "$(BUILD_DIR)/dmg"/*
-	@cp -R "$(APP_DIR)" "$(BUILD_DIR)/dmg/"
+	@cp -R "$(APP_DIR)" "$(BUILD_DIR)/dmg/$(DISPLAY_NAME).app"
 
 	# 创建 Applications 快捷方式
 	@ln -sf /Applications "$(BUILD_DIR)/dmg/Applications"
 
 	# 创建 DMG
-	@hdiutil create -volname "$(APP_NAME)" \
+	@hdiutil create -volname "$(DISPLAY_NAME)" \
 		-srcfolder "$(BUILD_DIR)/dmg" \
 		-ov -format UDZO \
 		"$(BUILD_DIR)/$(DMG_NAME)" > /dev/null
@@ -138,9 +139,9 @@ xcode:
 
 install: app
 	@echo "📥 安装到 /Applications..."
-	@rm -rf "/Applications/$(APP_NAME).app"
-	@cp -R "$(APP_DIR)" "/Applications/"
-	@echo "✅ 已安装到 /Applications/$(APP_NAME).app"
+	@rm -rf "/Applications/$(DISPLAY_NAME).app"
+	@cp -R "$(APP_DIR)" "/Applications/$(DISPLAY_NAME).app"
+	@echo "✅ 已安装到 /Applications/$(DISPLAY_NAME).app"
 
 # ── 代码签名（需要 Apple Developer 证书） ──────────
 
