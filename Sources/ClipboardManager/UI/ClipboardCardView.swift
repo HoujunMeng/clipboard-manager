@@ -68,6 +68,7 @@ struct ClipboardCardView: View {
         switch item.contentType {
         case .text:
             textPreview
+                .textSelectionIfAvailable()
         case .image:
             imagePreview
         }
@@ -169,6 +170,20 @@ struct ClipboardCardView: View {
             }
             context.stroke(path, with: .color(color),
                            style: StrokeStyle(lineWidth: 2, lineCap: .round))
+        }
+    }
+}
+
+// MARK: — textSelection 兼容性包装
+
+extension View {
+    /// 在 macOS 13+ 启用文字选取，低版本无效果
+    @ViewBuilder
+    func textSelectionIfAvailable() -> some View {
+        if #available(macOS 13.0, *) {
+            self.textSelection(.enabled)
+        } else {
+            self
         }
     }
 }
