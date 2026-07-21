@@ -1,0 +1,19 @@
+# Swift / Xcode
+.build/
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+*.swiftpm/
+
+# macOS
+.DS_Store
+*.dmg
+*.app
+
+# IDE
+.idea/
+.vscode/
+
+# Credentials
+*.p12
+*.provisionprofile
