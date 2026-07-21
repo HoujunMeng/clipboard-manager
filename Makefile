@@ -18,8 +18,8 @@ MACOS_DIR      := $(CONTENTS_DIR)/MacOS
 RESOURCES_DIR  := $(CONTENTS_DIR)/Resources
 SWIFT_FLAGS    := -c release
 ICONSET_DIR    := $(BUILD_DIR)/AppIcon.iconset
-VERSION        := 1.0.0
-BUILD          := 1
+VERSION        := 1.0.1
+BUILD          := 2
 DMG_NAME       := $(DISPLAY_NAME)-$(VERSION).dmg
 
 .PHONY: all build release app clean run xcode dmg icns install
