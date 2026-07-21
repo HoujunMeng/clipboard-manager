@@ -77,8 +77,9 @@ struct ClipboardCardView: View {
         Text(item.textContent?.truncatedForDisplay ?? "[空]")
             .font(.system(size: DesignMetrics.previewFontSize))
             .foregroundColor(.textPrimary)
-            .lineLimit(2)
-            .lineSpacing(2)
+            .lineLimit(8)
+            .lineSpacing(3)
+            .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 

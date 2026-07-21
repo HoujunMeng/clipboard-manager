@@ -52,13 +52,13 @@ enum DesignMetrics {
 // MARK: — String 扩展
 
 extension String {
-    /// 截取显示用文字（最多 80 字符）
+    /// 截取显示用文字（最多 300 字符，保留换行）
     var truncatedForDisplay: String {
-        let singleLine = self.replacingOccurrences(of: "\n", with: " ")
-                             .replacingOccurrences(of: "\r", with: " ")
-        if singleLine.count > 80 {
-            return String(singleLine.prefix(80)) + "..."
+        if self.count > 300 {
+            // 在 300 字符处截断，尽量在完整词/句处断开
+            let endIndex = self.index(self.startIndex, offsetBy: 300)
+            return String(self[..<endIndex]) + "..."
         }
-        return singleLine
+        return self
     }
 }
