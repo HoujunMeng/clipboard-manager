@@ -1,0 +1,63 @@
+name: Build & Release
+
+# 推送版本标签时触发（如 v1.0.0）
+on:
+  push:
+    tags:
+      - 'v*'
+  # 也允许手动触发
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: macos-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 构建 App + DMG
+        run: |
+          make app
+          make dmg
+
+      - name: 计算 DMG SHA256
+        run: |
+          shasum -a 256 .build/ClipboardManager-*.dmg | tee .build/checksum.txt
+
+      - name: 创建 Release 并上传 DMG
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "历史粘贴板 ${{ github.ref_name }}"
+          body: |
+            ## 🚀 安装方法
+
+            1. 下载下方 `ClipboardManager-*.dmg`
+            2. 双击挂载 DMG
+            3. 将 **历史粘贴板** 拖入 `Applications` 文件夹
+            4. 首次打开时按住 **Control** 点击 App → **打开**（未签名应用需此步骤）
+
+            ## ✨ 功能
+
+            - 🔄 自动记录文字和图片复制历史
+            - 🔍 实时搜索历史记录
+            - 📌 置顶常用内容（不受过期清理影响）
+            - 🗑️ 删除记录
+            - ⏱️ 可配置保留天数（1/3/5 天）
+            - 🚀 开机自动启动
+
+            ## 📋 系统要求
+
+            - macOS 12 (Monterey) 或更高版本
+            - Intel / Apple Silicon
+
+            ## 🔒 隐私
+
+            所有数据仅存储在本地 `~/Library/Application Support/ClipboardManager/`，不会上传到任何服务器。
+          files: |
+            .build/ClipboardManager-*.dmg
+            .build/checksum.txt
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
