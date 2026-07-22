@@ -33,6 +33,7 @@ jobs:
         run: |
           shasum -a 256 .build/ClipboardManager-*.dmg | tee .build/checksum-mac.txt
       - name: 上传 Mac DMG
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
@@ -63,6 +64,7 @@ jobs:
           $hash = (Get-FileHash -Algorithm SHA256 ClipboardManager-Windows-portable.zip).Hash.ToLower()
           "$hash  ClipboardManager-Windows-portable.zip" | Out-File -Encoding ASCII checksum-win.txt
       - name: 上传 Windows ZIP
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
