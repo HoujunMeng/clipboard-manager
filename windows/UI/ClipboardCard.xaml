@@ -122,16 +122,4 @@
         </Grid>
     </Border>
 
-    <!-- Triggers 用于数据和交互状态更新 -->
-    <UserControl.Triggers>
-        <!-- 置顶状态 → 蓝色标识条可见 -->
-        <DataTrigger Binding="{Binding IsPinned}" Value="True">
-            <Setter TargetName="PinBar" Property="Visibility" Value="Visible" />
-            <Setter TargetName="PinIcon" Property="Text" Value="📌" />
-            <Setter TargetName="PinIcon" Property="Foreground" Value="#FF1A1A1A" />
-        </DataTrigger>
-        <DataTrigger Binding="{Binding IsPinned}" Value="False">
-            <Setter TargetName="PinIcon" Property="Text" Value="📌" />
-        </DataTrigger>
-    </UserControl.Triggers>
 </UserControl>
