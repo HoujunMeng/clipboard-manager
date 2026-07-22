@@ -1,4 +1,5 @@
 using System.Windows.Media;
+using Color = System.Windows.Media.Color;
 
 namespace ClipboardManager.Utils;
 

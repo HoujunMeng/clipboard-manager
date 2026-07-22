@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Forms;
 using Application = System.Windows.Application;
-using MenuItem = System.Windows.Forms.MenuItem;
 using Timer = System.Windows.Forms.Timer;
 
 namespace ClipboardManager.UI;
