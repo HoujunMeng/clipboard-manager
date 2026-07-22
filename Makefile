@@ -18,10 +18,10 @@ MACOS_DIR      := $(CONTENTS_DIR)/MacOS
 RESOURCES_DIR  := $(CONTENTS_DIR)/Resources
 SWIFT_FLAGS    := -c release
 ICONSET_DIR    := $(BUILD_DIR)/AppIcon.iconset
-VERSION        := 1.0.1
-BUILD          := 2
+VERSION        := 1.0.3
+BUILD          := 3
 VOLUME_NAME    := ClipboardManager
-DMG_NAME       := $(DISPLAY_NAME)-$(VERSION).dmg
+DMG_NAME       := $(APP_NAME)-$(VERSION).dmg
 
 .PHONY: all build release app clean run xcode dmg icns install
 
