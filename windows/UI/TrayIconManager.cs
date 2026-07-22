@@ -251,9 +251,9 @@ public sealed class TrayIconManager : IDisposable
         if (iconRect == Rectangle.Empty)
         {
             // 降级：显示在屏幕右下角
-            var screen = Screen.PrimaryScreen;
-            if (screen == null) return;
-            var workArea = screen.WorkingArea;
+            var primaryScreen = Screen.PrimaryScreen;
+            if (primaryScreen == null) return;
+            var workArea = primaryScreen.WorkingArea;
             _panelWindow.Left = workArea.Right - _panelWindow.Width - 10;
             _panelWindow.Top = workArea.Bottom - _panelWindow.Height - 10;
             return;

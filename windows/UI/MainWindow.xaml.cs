@@ -1,9 +1,11 @@
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ClipboardManager.Models;
 using ClipboardManager.Services;
+using Clipboard = System.Windows.Clipboard;
 
 namespace ClipboardManager.UI;
 
