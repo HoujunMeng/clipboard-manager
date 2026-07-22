@@ -13,7 +13,8 @@
 #   git add .github/ && git commit -m "ci: add CI" && git push
 
 name: Build & Release
-
+permissions:               
+  contents: write
 on:
   push:
     tags:
