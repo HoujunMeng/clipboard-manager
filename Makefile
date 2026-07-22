@@ -165,9 +165,9 @@ xcode:
 
 install: app
 	@echo "📥 安装到 /Applications..."
-	@rm -rf "/Applications/$(DISPLAY_NAME).app"
-	@cp -R "$(APP_DIR)" "/Applications/$(DISPLAY_NAME).app"
-	@echo "✅ 已安装到 /Applications/$(DISPLAY_NAME).app"
+	@rm -rf "/Applications/$(APP_NAME).app"
+	@cp -R "$(APP_DIR)" "/Applications/$(APP_NAME).app"
+	@echo "✅ 已安装到 /Applications/$(APP_NAME).app"
 
 # ── 代码签名（需要 Apple Developer 证书） ──────────
 
