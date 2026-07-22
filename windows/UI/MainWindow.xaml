@@ -1,0 +1,163 @@
+<Window x:Class="ClipboardManager.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ClipboardManager.UI"
+        Title="历史粘贴板"
+        Width="380"
+        Height="520"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        Topmost="True"
+        ResizeMode="NoResize"
+        Focusable="True"
+        WindowStartupLocation="Manual">
+
+    <Border x:Name="RootBorder"
+            Background="#FFF0F0F0"
+            BorderBrush="#FFD0D0D0"
+            BorderThickness="1"
+            CornerRadius="10"
+            ClipToBounds="True">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />  <!-- 搜索栏 -->
+                <RowDefinition Height="*" />      <!-- 卡片列表 -->
+                <RowDefinition Height="Auto" />   <!-- 分隔线 -->
+                <RowDefinition Height="Auto" />   <!-- 状态栏 -->
+            </Grid.RowDefinitions>
+
+            <!-- ═══ 搜索框 ═══ -->
+            <Border Grid.Row="0"
+                    Margin="12,12,12,8"
+                    Height="36"
+                    Background="White"
+                    CornerRadius="8"
+                    BorderBrush="#FFD0D0D0"
+                    BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="🔍"
+                               FontSize="13"
+                               VerticalAlignment="Center"
+                               Margin="10,0,0,0" />
+
+                    <TextBox x:Name="SearchBox"
+                             Grid.Column="1"
+                             VerticalAlignment="Center"
+                             Margin="6,0,0,0"
+                             BorderThickness="0"
+                             FontSize="14"
+                             Foreground="#FF1A1A1A"
+                             TextChanged="OnSearchTextChanged"
+                             Style="{StaticResource CleanTextBox}" />
+
+                    <!-- 搜索占位文字（焦点后消失） -->
+                    <TextBlock Grid.Column="1"
+                               Text="搜索复制历史..."
+                               FontSize="14"
+                               Foreground="#FF999999"
+                               VerticalAlignment="Center"
+                               Margin="6,0,0,0"
+                               IsHitTestVisible="False"
+                               Visibility="Visible"
+                               x:Name="PlaceholderText" />
+
+                    <Button Grid.Column="2"
+                            x:Name="ClearButton"
+                            Content="✕"
+                            FontSize="12"
+                            Foreground="#FF999999"
+                            VerticalAlignment="Center"
+                            Margin="0,0,8,0"
+                            Click="OnClearSearch"
+                            Visibility="Collapsed"
+                            Style="{StaticResource IconButton}" />
+                </Grid>
+            </Border>
+
+            <!-- ═══ 卡片列表 ═══ -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Margin="0,4,0,0">
+                <Grid>
+                    <!-- 空状态 -->
+                    <StackPanel x:Name="EmptyState"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Visibility="Visible">
+                        <TextBlock x:Name="EmptyIcon"
+                                   FontSize="32"
+                                   Foreground="#FFBBBBBB"
+                                   HorizontalAlignment="Center"
+                                   Text="📋" />
+                        <TextBlock x:Name="EmptyText"
+                                   FontSize="14"
+                                   Foreground="#FFBBBBBB"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,8,0,0"
+                                   Text="暂无复制记录" />
+                    </StackPanel>
+
+                    <!-- 卡片容器 -->
+                    <ItemsControl x:Name="CardList"
+                                  Margin="12,0,12,4"
+                                  Visibility="Collapsed">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <local:ClipboardCard
+                                    Margin="0,0,0,6"
+                                    MouseLeftButtonDown="OnCardClick" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- ═══ 底部分隔线 ═══ -->
+            <Border Grid.Row="2"
+                    Height="1"
+                    Background="#FFE0E0E0" />
+
+            <!-- ═══ 状态栏 ═══ -->
+            <Grid Grid.Row="3"
+                  Margin="12,4,12,4"
+                  Height="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           x:Name="StatusLabel"
+                           FontSize="11"
+                           Foreground="#FF999999"
+                           VerticalAlignment="Center"
+                           Text="共 0 条记录 · 保留 3 天" />
+
+                <Button Grid.Column="1"
+                        Content="⚙"
+                        FontSize="14"
+                        Foreground="#FF999999"
+                        VerticalAlignment="Center"
+                        Click="OnOpenSettings"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="设置" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

@@ -20,6 +20,7 @@ SWIFT_FLAGS    := -c release
 ICONSET_DIR    := $(BUILD_DIR)/AppIcon.iconset
 VERSION        := 1.0.1
 BUILD          := 2
+VOLUME_NAME    := ClipboardManager
 DMG_NAME       := $(DISPLAY_NAME)-$(VERSION).dmg
 
 .PHONY: all build release app clean run xcode dmg icns install
@@ -97,25 +98,50 @@ app: release icns
 
 dmg: app
 	@echo "💿 创建 DMG 安装镜像..."
-	@rm -f "$(BUILD_DIR)/$(DMG_NAME)"
-
-	# 创建临时目录
-	@mkdir -p "$(BUILD_DIR)/dmg"
-	@rm -rf "$(BUILD_DIR)/dmg"/*
-	@cp -R "$(APP_DIR)" "$(BUILD_DIR)/dmg/$(DISPLAY_NAME).app"
-
-	# 创建 Applications 快捷方式
-	@ln -sf /Applications "$(BUILD_DIR)/dmg/Applications"
-
-	# 创建 DMG
-	@hdiutil create -volname "$(DISPLAY_NAME)" \
-		-srcfolder "$(BUILD_DIR)/dmg" \
-		-ov -format UDZO \
-		"$(BUILD_DIR)/$(DMG_NAME)" > /dev/null
-
-	# 清理
-	@rm -rf "$(BUILD_DIR)/dmg"
-
+	@rm -f "$(BUILD_DIR)/$(DMG_NAME)" "$(BUILD_DIR)/tmp.dmg"
+	@echo "  创建空白 DMG..."
+	@hdiutil create -volname "$(VOLUME_NAME)" \
+		-size 50m \
+		-layout NONE \
+		-fs "APFS" \
+		-ov \
+		"$(BUILD_DIR)/tmp.dmg" > /dev/null
+	@echo "  挂载并复制文件..."
+	@MOUNT_POINT=$$(hdiutil attach "$(BUILD_DIR)/tmp.dmg" -nobrowse 2>&1 | tr '\t' ' ' | grep '/Volumes/' | tail -1 | awk '{print $$NF}'); \
+	echo "  挂载点: $$MOUNT_POINT"; \
+	cp -R "$(APP_DIR)" "$$MOUNT_POINT/$(APP_NAME).app"; \
+	ln -sf /Applications "$$MOUNT_POINT/Applications"; \
+	rm -f "$$MOUNT_POINT/.DS_Store"; \
+	sync; sleep 1; \
+	echo "  设置布局..."; \
+	osascript -e "tell application \"Finder\"" \
+		-e "  activate" \
+		-e "  set volPath to \"$$MOUNT_POINT\" as POSIX file as alias" \
+		-e "  open volPath" \
+		-e "  delay 1" \
+		-e "  set frontWin to front window" \
+		-e "  set current view of frontWin to icon view" \
+		-e "  set toolbar visible of frontWin to false" \
+		-e "  set statusbar visible of frontWin to false" \
+		-e "  set bounds of frontWin to {400, 400, 920, 680}" \
+		-e "  set viewOpts to icon view options of frontWin" \
+		-e "  set arrangement of viewOpts to not arranged" \
+		-e "  set icon size of viewOpts to 72" \
+		-e "  try" \
+		-e "    set position of item \"$(APP_NAME).app\" of frontWin to {160, 120}" \
+		-e "  end try" \
+		-e "  try" \
+		-e "    set position of item \"Applications\" of frontWin to {360, 120}" \
+		-e "  end try" \
+		-e "  delay 0.5" \
+		-e "  close frontWin" \
+		-e "end tell" 2>&1 || echo "  ⚠️  布局设置失败，使用默认排列"; \
+	sleep 0.5; \
+	echo "  卸载 DMG..."; \
+	hdiutil detach "$$MOUNT_POINT" -force > /dev/null 2>&1
+	@echo "  转换为压缩格式..."
+	@hdiutil convert "$(BUILD_DIR)/tmp.dmg" -format UDZO -o "$(BUILD_DIR)/$(DMG_NAME)" > /dev/null
+	@rm -f "$(BUILD_DIR)/tmp.dmg"
 	@echo ""
 	@echo "✅ DMG 已创建: $(BUILD_DIR)/$(DMG_NAME)"
 	@echo "   大小: $$(du -h $(BUILD_DIR)/$(DMG_NAME) | cut -f1)"

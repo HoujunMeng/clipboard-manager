@@ -14,6 +14,14 @@ DerivedData/
 .idea/
 .vscode/
 
+# Windows / .NET
+windows/bin/
+windows/obj/
+windows/publish/
+windows/Output/
+*.user
+*.suo
+
 # Credentials
 *.p12
 *.provisionprofile
