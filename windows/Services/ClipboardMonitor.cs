@@ -8,6 +8,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using ClipboardManager.Models;
 using Application = System.Windows.Application;
+using Clipboard = System.Windows.Clipboard;
+using TextDataFormat = System.Windows.TextDataFormat;
 
 namespace ClipboardManager.Services;
 

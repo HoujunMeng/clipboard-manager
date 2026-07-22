@@ -97,7 +97,7 @@ public sealed class TrayIconManager : IDisposable
         const int size = 64;
         using var bitmap = new Bitmap(size, size);
         using var g = Graphics.FromImage(bitmap);
-        g.SmoothingMode = SmoothingMode.AntiAliasing;
+        g.SmoothingMode = SmoothingMode.AntiAlias;
 
         // 透明背景
         g.Clear(Color.Transparent);
