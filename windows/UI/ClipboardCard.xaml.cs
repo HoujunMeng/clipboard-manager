@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ClipboardManager.Models;
 using UserControl = System.Windows.Controls.UserControl;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace ClipboardManager.UI;
 
