@@ -306,11 +306,11 @@ public sealed class TrayIconManager : IDisposable
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("user32.dll", SetLastError = true)]
-    private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+    private static extern IntPtr FindWindow(string? lpClassName, string? lpWindowName);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr FindWindowEx(IntPtr hWndParent, IntPtr hWndChildAfter,
-        string lpClassName, string? lpWindowName);
+        string? lpClassName, string? lpWindowName);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct RECT
