@@ -1,0 +1,72 @@
+# CI Release 工作流模板
+# =======================
+# 将此文件复制到仓库根目录的 .github/workflows/release.yml 即可启用 CI 自动构建。
+#
+# 方式1：通过 GitHub 网页
+#   打开 https://github.com/HoujunMeng/clipboard-manager/new/main/.github/workflows
+#   文件名填 release.yml，粘贴本文件全部内容，点 Commit。
+#
+# 方式2：通过命令行（需 workflow scope token）
+#   gh auth refresh -h github.com -s workflow  # 先授权
+#   mkdir -p .github/workflows
+#   cp windows/installer/release-ci.yml .github/workflows/release.yml
+#   git add .github/ && git commit -m "ci: add CI" && git push
+
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 构建 App + DMG
+        run: |
+          make app
+          make dmg
+      - name: 计算 DMG SHA256
+        run: |
+          shasum -a 256 .build/ClipboardManager-*.dmg | tee .build/checksum-mac.txt
+      - name: 上传 Mac DMG
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            .build/ClipboardManager-*.dmg
+            .build/checksum-mac.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: 还原 & 构建
+        run: |
+          dotnet restore windows/ClipboardManager.Windows.csproj
+          dotnet build windows/ClipboardManager.Windows.csproj -c Release
+      - name: 发布
+        run: dotnet publish windows/ClipboardManager.Windows.csproj -c Release -o windows-publish
+      - name: 打包 ZIP
+        shell: pwsh
+        run: Compress-Archive -Path windows-publish/* -DestinationPath ClipboardManager-Windows-portable.zip
+      - name: 计算 SHA256
+        shell: pwsh
+        run: |
+          $hash = (Get-FileHash -Algorithm SHA256 ClipboardManager-Windows-portable.zip).Hash.ToLower()
+          "$hash  ClipboardManager-Windows-portable.zip" | Out-File -Encoding ASCII checksum-win.txt
+      - name: 上传 Windows ZIP
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ClipboardManager-Windows-portable.zip
+            checksum-win.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
