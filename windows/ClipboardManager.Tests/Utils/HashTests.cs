@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Media.Imaging;
 using ClipboardManager.Services;
+using Xunit;
 
 namespace ClipboardManager.Tests.Utils;
 
