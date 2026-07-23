@@ -8,7 +8,9 @@
     <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <RootNamespace>ClipboardManager</RootNamespace>
     <AssemblyName>ClipboardManager</AssemblyName>
-    <Version>1.0.0</Version>
+    <Version>1.0.4</Version>
+    <Company>ClipboardManager</Company>
+    <Product>历史粘贴板</Product>
     <Authors>HoujunMeng</Authors>
     <Description>历史粘贴板 — Windows 系统托盘剪贴板管理工具</Description>
     <ImplicitUsings>enable</ImplicitUsings>
