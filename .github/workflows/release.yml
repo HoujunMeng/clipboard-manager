@@ -54,6 +54,8 @@ jobs:
         run: |
           dotnet restore windows/ClipboardManager.Windows.csproj
           dotnet build windows/ClipboardManager.Windows.csproj -c Release
+      - name: 单元测试
+        run: dotnet test windows/ClipboardManager.Tests/ClipboardManager.Tests.csproj -c Release
       - name: 发布
         run: dotnet publish windows/ClipboardManager.Windows.csproj -c Release -o windows-publish
       - name: 打包 ZIP
