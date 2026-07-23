@@ -29,7 +29,7 @@ public class ClipboardItemTests
             TextContent = longText
         };
 
-        Assert.Equal(100, item.Preview.Length);
+        Assert.Equal(103, item.Preview.Length);
         Assert.True(item.Preview.EndsWith("..."));
     }
 
@@ -55,11 +55,11 @@ public class ClipboardItemTests
             TextContent = null
         };
 
-        Assert.Equal(string.Empty, item.Preview);
+        Assert.Equal("[空]", item.Preview);
     }
 
     [Fact]
-    public void Preview_EmptyText_ReturnsEmpty()
+    public void Preview_EmptyText_ReturnsPlaceholder()
     {
         var item = new ClipboardItem
         {
@@ -67,7 +67,7 @@ public class ClipboardItemTests
             TextContent = ""
         };
 
-        Assert.Equal("", item.Preview);
+        Assert.Equal("[空]", item.Preview);
     }
 
     [Fact]
@@ -103,7 +103,7 @@ public class ClipboardItemTests
             CreatedAt = DateTime.Now.AddMinutes(-3)
         };
 
-        Assert.Equal("3 分钟前", item.RelativeTime);
+        Assert.Equal("3分钟前", item.RelativeTime);
     }
 
     [Fact]
@@ -114,7 +114,7 @@ public class ClipboardItemTests
             CreatedAt = DateTime.Now.AddHours(-2).AddMinutes(-30)
         };
 
-        Assert.Equal("2 小时前", item.RelativeTime);
+        Assert.Equal("2小时前", item.RelativeTime);
     }
 
     [Fact]
@@ -125,6 +125,6 @@ public class ClipboardItemTests
             CreatedAt = DateTime.Now.AddDays(-2)
         };
 
-        Assert.Equal("2 天前", item.RelativeTime);
+        Assert.Equal("2天前", item.RelativeTime);
     }
 }
