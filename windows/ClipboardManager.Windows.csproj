@@ -13,6 +13,7 @@
     <Description>历史粘贴板 — Windows 系统托盘剪贴板管理工具</Description>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
