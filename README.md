@@ -53,13 +53,18 @@ Mac 版：点击**右上角**菜单栏图标；Windows 版：点击**右下角**
 
 1. 打开 [Releases](https://github.com/HoujunMeng/clipboard-manager/releases/latest) 页面
 2. 下载 `ClipboardManager-Windows-portable.zip`
-3. 解压到任意目录（如 `C:\Program Files\ClipboardManager\`）
+
+   > ⚠️ **关键步骤：下载后先右键 ZIP → 属性 → 勾选「解除锁定」→ 确定**，再解压。否则 Windows 会因为文件来自互联网而拦截运行。
+   >
+   > ![解除锁定示意](https://github.com/user-attachments/assets/placeholder)
+
+3. 将 ZIP 解压到任意目录（如 `C:\Users\你的用户名\AppData\Local\ClipboardManager\`）
 4. 双击 `ClipboardManager.exe` 运行
 5. 首次运行时可在设置中开启「开机自动启动」
 
-> ⚠️ Windows SmartScreen 可能提示「无法识别」。点击「更多信息」→「仍然运行」即可。
+> 💡 **必备环境**：[.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0)（选择「Run desktop apps」下的 x64 下载）。
 >
-> 💡 需要安装 [.NET 9 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/9.0)（如已通过 Windows Update 安装则可跳过）。
+> 💡 **如果系统仍然拦截**：点击「更多信息」→「仍然运行」。随着更多用户下载，SmartScreen 会自动降低拦截频率。
 
 ## 📋 系统要求
 
