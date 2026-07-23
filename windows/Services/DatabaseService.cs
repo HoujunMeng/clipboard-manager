@@ -21,13 +21,11 @@ public sealed class DatabaseService
 
     // ── 初始化 ──────────────────────────────────
 
-    private DatabaseService()
-    {
-        // 数据目录：%APPDATA%\ClipboardManager\
-        var dataDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "ClipboardManager");
+    private DatabaseService() : this(GetDefaultDataDir()) { }
 
+    /// <summary>测试用构造函数：指定数据目录</summary>
+    internal DatabaseService(string dataDir)
+    {
         Directory.CreateDirectory(dataDir);
         _dbPath = Path.Combine(dataDir, "history.db");
         _imagesDir = Path.Combine(dataDir, "images");
@@ -35,6 +33,11 @@ public sealed class DatabaseService
 
         OpenAndInitialize();
     }
+
+    private static string GetDefaultDataDir() =>
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "ClipboardManager");
 
     private void OpenAndInitialize()
     {

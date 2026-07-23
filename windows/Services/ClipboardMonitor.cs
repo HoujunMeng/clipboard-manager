@@ -340,7 +340,7 @@ public sealed class ClipboardMonitor
 
     // ── 哈希（去重）────────────────────────────────
 
-    private static string HashText(string text)
+    internal static string HashText(string text)
     {
         var bytes = Encoding.UTF8.GetBytes(text);
         return Convert.ToHexString(SHA256.HashData(bytes));
@@ -350,7 +350,7 @@ public sealed class ClipboardMonitor
     /// 图片哈希：将 PNG 缩放到 32×32 后计算 SHA256。
     /// 与 Mac 版逻辑一致（缩略图哈希，减少计算量 + 容忍轻微压缩差异）。
     /// </summary>
-    private static string HashImagePng(byte[] pngData)
+    internal static string HashImagePng(byte[] pngData)
     {
         try
         {
@@ -386,7 +386,7 @@ public sealed class ClipboardMonitor
         }
     }
 
-    private static string HashFile(string filePath)
+    internal static string HashFile(string filePath)
     {
         try
         {

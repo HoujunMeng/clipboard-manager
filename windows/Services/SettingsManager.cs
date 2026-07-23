@@ -27,11 +27,15 @@ public sealed class SettingsManager
 
     // ── 初始化 ──────────────────────────────────
 
-    private SettingsManager()
-    {
-        var dataDir = Path.Combine(
+    private SettingsManager() : this(
+        Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "ClipboardManager");
+            "ClipboardManager"))
+    { }
+
+    /// <summary>测试用构造函数：指定数据目录</summary>
+    internal SettingsManager(string dataDir)
+    {
         Directory.CreateDirectory(dataDir);
         _settingsPath = Path.Combine(dataDir, "settings.json");
 
