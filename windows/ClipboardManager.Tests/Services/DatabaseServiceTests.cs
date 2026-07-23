@@ -1,3 +1,4 @@
+using System.IO;
 using ClipboardManager.Models;
 using ClipboardManager.Services;
 using Xunit;
