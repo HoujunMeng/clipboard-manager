@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ClipboardManager.Windows.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
 </Project>
